@@ -51,18 +51,24 @@ export class AuthService {
             throw new ForbiddenException('Credentials incorrect');
         }
 
+        delete user.hash
+
         return {
-            access_token: this.signToken(user.id, user.email)
+            access_token: this.signToken(user)
         }
     }
 
-    async signToken(userId: number, email: string): Promise<string>{
+    signToken(user: User){
         const payload = {
-            sub: userId,
-            email,
+            sub: user.id,
+            userId: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            roles: ['ADMIN', 'LECTURER']
         }
 
-        return this.jwt.signAsync(payload, {
+        return this.jwt.sign(payload, {
             expiresIn: '5d',
             secret: this.config.get('JWT_SECRET')
         })
