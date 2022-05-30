@@ -1,4 +1,5 @@
-import { CreateUserDto, AuthDto } from './../src/auth/dto/auth.dto';
+import { EditUserDto } from './../src/user/dto';
+import { CreateUserDto, AuthDto } from './../src/auth/dto';
 import * as pactum from 'pactum';
 import { DbService } from '../src/db/db.service';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
@@ -139,7 +140,24 @@ describe('App e2e', () => {
     });
 
     describe("Edit User", () => {
+      it('should edit current user', () => { 
+        const editUserDto: EditUserDto = {
+          email: "dan@gmail.com"
+        }
 
+        return pactum
+          .spec()
+          .patch("/users")
+          .withBody(editUserDto)
+          .withHeaders({
+            Authorization: "Bearer $S{userAt}"
+          })
+          .expectStatus(200)
+          .expectBodyContains(editUserDto.email)
+          .expectJsonLike({
+            email: editUserDto.email
+          })
+       });
     });
 
     describe("Delete User", () => {
