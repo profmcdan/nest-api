@@ -1,8 +1,7 @@
+import { DbService } from './../db/db.service';
 import { ConfigService } from '@nestjs/config';
-import { IsEmail } from 'class-validator';
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import {User, Bookmark} from '@prisma/client'
-import { DbService } from "src/db/db.service";
 import { AuthDto, CreateUserDto } from "./dto";
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";

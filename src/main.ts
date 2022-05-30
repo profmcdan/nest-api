@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerCustomOptions, SwaggerDocumentOptions, SwaggerModule } from '@nestjs/swagger';
+import { SecuritySchemeObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,6 +12,7 @@ async function bootstrap() {
     .setDescription("The Bookmarks API")
     .setVersion("1.0")
     .addTag("bookmarks")
+    .addBearerAuth({ type: 'http', schema: 'Bearer', bearerFormat: 'Token' } as SecuritySchemeObject, 'Bearer')
     .build();
 
     const options: SwaggerDocumentOptions = {
